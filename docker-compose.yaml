@@ -1,0 +1,35 @@
+version: '3'
+services:
+  node-js-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/app
+    ports:
+      - '8080:8080'
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=node-js-db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=password
+      - DB_DATABASE=library
+    depends_on:
+      - node-js-db
+
+  node-js-db:
+    image: postgres:12
+    container_name: node-js-db
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=library
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:

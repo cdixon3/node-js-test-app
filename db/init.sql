@@ -1,0 +1,4 @@
+CREATE TABLE dog_facts (
+    id SERIAL PRIMARY KEY,
+    fact TEXT UNIQUE NOT NULL
+);
